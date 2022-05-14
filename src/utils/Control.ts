@@ -1,24 +1,19 @@
 class Control<NodeType extends HTMLElement = HTMLElement> {
-  public node: NodeType
+  public node: NodeType;
 
-  constructor(
-    parentNode: HTMLElement | null,
-    tagName = 'div',
-    className = '',
-    content = ''
-  ) {
-    const el = document.createElement(tagName)
-    el.className = className
-    el.textContent = content
+  constructor(parentNode: HTMLElement | null, tagName = 'div', className = '', content = '') {
+    const el = document.createElement(tagName);
+    el.className = className;
+    el.textContent = content;
     if (parentNode) {
-      parentNode.append(el)
+      parentNode.append(el);
     }
-    this.node = el as NodeType
+    this.node = el as NodeType;
   }
 
   destroy(): void {
-    this.node.remove()
+    this.node.remove();
   }
 }
 
-export default Control
+export default Control;
