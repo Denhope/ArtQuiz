@@ -3,6 +3,7 @@ import { SettingsPage } from './settingsPage';
 import { StartPage } from './startPage';
 import { CategoriesPage } from './categoriesPage';
 import { GameFieldPage } from './gameField';
+import { GameOverPage } from './gameOverPAge';
 
 export class Application extends Control {
   constructor(parentNode: HTMLElement) {
@@ -27,6 +28,13 @@ export class Application extends Control {
         gameField.destroy();
         this.categoryCycle(gameName);
       };
+      gameField.onFinish=()=>{
+        gameField.destroy();
+        const gameOverPage = new GameOverPage(this.node)
+        gameOverPage.onHome=()=>{
+          this.mainCycle()
+        }
+      }
     };
   }
 

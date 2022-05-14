@@ -4,9 +4,14 @@ interface IQuizOptions {
   categoryIndex: number;
 }
 
+interface IQuizResults{
+
+}
+
 export class GameFieldPage extends Control {
   onBack: () => void;
   onHome: () => void;
+  onFinish: (results:IQuizResults)=>void;
   constructor(parentNode: HTMLElement, gameOptions: IQuizOptions) {
     super(parentNode);
     console.log(gameOptions);
@@ -24,6 +29,10 @@ export class GameFieldPage extends Control {
     const homeButton = new Control(this.node, 'button', '', 'home');
     homeButton.node.onclick = () => {
       this.onHome();
+    };
+    const finishButton = new Control(this.node, 'button', '', 'finish');
+    finishButton.node.onclick = () => {
+      this.onFinish({}); 
     };
   }
 }
