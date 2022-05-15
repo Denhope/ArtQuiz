@@ -6,13 +6,18 @@ interface IQuizOptions {
   categoryIndex: number;
 }
 
-interface IQuizResults {}
+// interface IQuizResults {}
+type IQuizResults = Array<boolean>;
 
 export class GameFieldPage extends Control {
   onBack: () => void;
   onHome: () => void;
   onFinish: (results: IQuizResults) => void;
   progressIndicator: Control<HTMLElement>;
+
+  results: IQuizResults;
+
+  answerIndicator: Control<HTMLElement>;
   constructor(parentNode: HTMLElement, gameOptions: IQuizOptions) {
     super(parentNode);
     console.log(gameOptions);
@@ -33,14 +38,16 @@ export class GameFieldPage extends Control {
     };
 
     this.progressIndicator = new Control(this.node, 'div', '', '');
+    this.answerIndicator = new Control(this.node, 'div', '', '');
 
     const questions: Array<IArtistQuestionData> = [
-      { answers: [1, 2, 3, 4] },
-      { answers: [1, 2, 3, 4] },
-      { answers: [1, 2, 3, 4] },
+      { answers: [1, 2, 3, 4], correctAnswerIndex: 1 },
+      { answers: [1, 2, 3, 4], correctAnswerIndex: 2 },
+      { answers: [1, 2, 3, 4], correctAnswerIndex: 3 },
     ];
+    this.results = [];
     this.questionCycle(questions, 0, () => {
-      this.onFinish({});
+      this.onFinish(this.results);
     });
   }
   questionCycle(questions: Array<IArtistQuestionData>, index: number, onFinish: () => void) {
@@ -49,9 +56,11 @@ export class GameFieldPage extends Control {
       return;
     }
     this.progressIndicator.node.textContent = `${index + 1} /${questions.length}`;
+    this.answerIndicator.node.textContent = this.results.map((el) => (el ? '+' : '-')).join(' ');
     const question = new ArtistQuestionView(this.node, questions[index]);
     question.onAnswer = (answerIndex) => {
       question.destroy();
+      this.results.push(answerIndex == questions[index].correctAnswerIndex);
       this.questionCycle(questions, index + 1, onFinish);
     };
   }

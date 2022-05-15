@@ -3,7 +3,7 @@ import { SettingsPage } from './settingsPage';
 import { StartPage } from './startPage';
 import { CategoriesPage } from './categoriesPage';
 import { GameFieldPage } from './gameField';
-import { GameOverPage } from './gameOverPAge';
+import { GameOverPage } from './gameOverPage';
 
 export class Application extends Control {
   constructor(parentNode: HTMLElement) {
@@ -17,23 +17,21 @@ export class Application extends Control {
     });
     gameField.onHome = () => {
       gameField.destroy();
-
       this.mainCycle();
     };
     gameField.onBack = () => {
       gameField.destroy();
       this.categoryCycle(gameName);
     };
-    gameField.onFinish = (result) => {
+    gameField.onFinish = (results) => {
       gameField.destroy();
-      const gameOverPage = new GameOverPage(this.node, result);
+      const gameOverPage = new GameOverPage(this.node, results);
       gameOverPage.onHome = () => {
         gameOverPage.destroy();
         this.mainCycle();
       };
       gameOverPage.onNext = () => {
         gameOverPage.destroy();
-
         this.gameCycle(gameName, categoryIndex + 1);
       };
     };

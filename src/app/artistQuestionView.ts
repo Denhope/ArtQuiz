@@ -6,6 +6,7 @@ export class ArtistQuestionView extends Control {
 
   constructor(parentNode: HTMLElement, questionData: IArtistQuestionData) {
     super(parentNode);
+    
 
     const question = new Control(this.node, 'div', '', 'Кто написал картину?');
     const answerButton = questionData.answers.map((el, i) => {
