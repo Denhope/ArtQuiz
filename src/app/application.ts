@@ -45,7 +45,7 @@ export class Application extends Control {
     };
   }
   private categoryCycle(gameName: string) {
-    const categories = new CategoriesPage(this.node, gameName);
+    const categories = new CategoriesPage(this.node, gameName, this.model.getCategoriesData());
     categories.onBack = () => {
       categories.destroy();
       this.mainCycle();

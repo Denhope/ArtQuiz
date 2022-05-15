@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -25,6 +26,9 @@ const config = {
       template: 'index.html',
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: './src/assets/img', to: './public/img' }],
+    }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
