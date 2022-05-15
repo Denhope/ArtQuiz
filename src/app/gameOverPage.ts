@@ -5,7 +5,7 @@ export class GameOverPage extends Control {
   onHome: () => void;
   constructor(parentNode: HTMLElement, results: any) {
     super(parentNode);
-    const res = new Control(this.node, 'h1', 'res', 'Result Page');
+    const header = new Control(this.node, 'h1', 'title', 'Result Page');
 
     const resultIndicator = new Control(this.node, 'div', '', '');
     resultIndicator.node.textContent = results.map((el: boolean) => (el ? '+' : '-')).join(' ');

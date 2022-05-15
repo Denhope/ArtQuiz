@@ -1,7 +1,7 @@
 import Control from '../utils/Control';
 import { IArtistQuestionData } from './IArtistQuestionData ';
 
-export class ArtistQuestionView extends Control {
+export class PictureQuestionsView extends Control {
   onAnswer: (index: number) => void;
 
   constructor(parentNode: HTMLElement, questionData: IArtistQuestionData) {

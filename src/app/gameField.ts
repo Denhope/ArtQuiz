@@ -1,6 +1,7 @@
 import Control from '../utils/Control';
 import { ArtistQuestionView } from './artistQuestionView';
 import { IArtistQuestionData } from './IArtistQuestionData ';
+import { PictureQuestionsView } from './pictureQuestionsView';
 interface IQuizOptions {
   gameName: string;
   categoryIndex: number;
@@ -46,22 +47,39 @@ export class GameFieldPage extends Control {
       { answers: [1, 2, 3, 4], correctAnswerIndex: 3 },
     ];
     this.results = [];
-    this.questionCycle(questions, 0, () => {
+    this.questionCycle(gameOptions.gameName, questions, 0, () => {
       this.onFinish(this.results);
     });
   }
-  questionCycle(questions: Array<IArtistQuestionData>, index: number, onFinish: () => void) {
+  questionCycle(
+    gameName: string,
+    questions: Array<IArtistQuestionData>,
+    index: number,
+    onFinish: () => void,
+  ) {
     if (index >= questions.length) {
       onFinish();
       return;
     }
     this.progressIndicator.node.textContent = `${index + 1} /${questions.length}`;
     this.answerIndicator.node.textContent = this.results.map((el) => (el ? '+' : '-')).join(' ');
-    const question = new ArtistQuestionView(this.node, questions[index]);
-    question.onAnswer = (answerIndex) => {
-      question.destroy();
-      this.results.push(answerIndex == questions[index].correctAnswerIndex);
-      this.questionCycle(questions, index + 1, onFinish);
-    };
+
+    if (gameName == 'artist') {
+      const question = new ArtistQuestionView(this.node, questions[index]);
+      question.onAnswer = (answerIndex) => {
+        question.destroy();
+        this.results.push(answerIndex == questions[index].correctAnswerIndex);
+        this.questionCycle(gameName, questions, index + 1, onFinish);
+      };
+    } else if (gameName == 'picture') {
+      const question = new PictureQuestionsView(this.node, questions[index]);
+      question.onAnswer = (answerIndex) => {
+        question.destroy();
+        this.results.push(answerIndex == questions[index].correctAnswerIndex);
+        this.questionCycle(gameName, questions, index + 1, onFinish);
+      };
+    } else {
+      throw new Error('game broken');
+    }
   }
 }
