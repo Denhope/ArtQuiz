@@ -4,14 +4,12 @@ interface IQuizOptions {
   categoryIndex: number;
 }
 
-interface IQuizResults{
-
-}
+interface IQuizResults {}
 
 export class GameFieldPage extends Control {
   onBack: () => void;
   onHome: () => void;
-  onFinish: (results:IQuizResults)=>void;
+  onFinish: (results: IQuizResults) => void;
   constructor(parentNode: HTMLElement, gameOptions: IQuizOptions) {
     super(parentNode);
     console.log(gameOptions);
@@ -32,7 +30,7 @@ export class GameFieldPage extends Control {
     };
     const finishButton = new Control(this.node, 'button', '', 'finish');
     finishButton.node.onclick = () => {
-      this.onFinish({}); 
+      this.onFinish({});
     };
   }
 }

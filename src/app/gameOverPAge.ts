@@ -1,9 +1,9 @@
 import Control from '../utils/Control';
 
 export class GameOverPage extends Control {
-  onNext: ()=>void;
-  onHome: ()=>void;
-  constructor(parentNode: HTMLElement) {
+  onNext: () => void;
+  onHome: () => void;
+  constructor(parentNode: HTMLElement, result: any) {
     super(parentNode);
 
     const nextButton = new Control(this.node, 'button', '', 'next');
