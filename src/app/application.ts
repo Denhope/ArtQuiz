@@ -4,11 +4,19 @@ import { StartPage } from './startPage';
 import { CategoriesPage } from './categoriesPage';
 import { GameFieldPage } from './gameField';
 import { GameOverPage } from './gameOverPage';
+import { QuizDataModel } from './quizDataModel';
 
 export class Application extends Control {
+  model: QuizDataModel;
   constructor(parentNode: HTMLElement) {
     super(parentNode);
-    this.mainCycle();
+    //preloder
+
+    this.model = new QuizDataModel();
+    this.model.build().then((result) => {
+      console.log(result.data);
+      this.mainCycle();
+    });
   }
   private gameCycle(gameName: string, categoryIndex: number) {
     const gameField = new GameFieldPage(this.node, {
