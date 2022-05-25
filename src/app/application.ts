@@ -19,13 +19,22 @@ export class Application extends Control {
     });
   }
   private gameCycle(gameName: string, categoryIndex: number) {
+    let questions: Array<any>;
+    if (gameName === 'artist') {
+      questions = this.model.getArtistQuestions(categoryIndex);
+    } else if (gameName === 'picture') {
+      questions = this.model.getPicturesQuestions(categoryIndex);
+    } else {
+      throw new Error('Error');
+    }
     const gameField = new GameFieldPage(
       this.node,
       {
         gameName: gameName,
         categoryIndex: categoryIndex,
       },
-      this.model.getPicturesQuestions(categoryIndex),
+
+      questions,
     );
     gameField.onHome = () => {
       gameField.destroy();

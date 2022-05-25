@@ -99,7 +99,37 @@ export class QuizDataModel {
     return result;
   }
 
-  public getArtistQuestions() {}
+  public getArtistQuestions(categoryIndex: number) {
+    const questionsPerCategory = this.questionsPerCategory;
+    const result: Array<IArtistQuestionData> = [];
+    for (
+      let i = categoryIndex * questionsPerCategory;
+      i < (categoryIndex + 1) * questionsPerCategory;
+      i++
+    ) {
+      const answers: Array<string> = [];
+      const answersCount = 4;
+      const correctAnswerIndex = Math.floor(Math.random() * answersCount);
+      const correctAnswer = this.data[i].author.en; //`./public/img/pictures/${this.data[i].picture}.jpg`;
+      for (let j = 0; j < answersCount; j++) {
+        if (correctAnswerIndex == j) {
+          answers.push(correctAnswer);
+        } else {
+          const randomName = this.data[Math.floor(Math.random() * this.data.length)].author;
+          // const variantUrl = `./public/img/pictures/${randomImage}.jpg`;
+          answers.push(randomName.en);
+        }
+      }
+      const question: IArtistQuestionData = {
+        artistImgUrl: `./public/img/pictures/${this.data[i].picture}.jpg`,
+        answers: answers,
+        correctAnswerIndex: correctAnswerIndex,
+      };
+      result.push(question);
+    }
+
+    return result;
+  }
 
   private loadImagesdata(url: string): Promise<Array<IPictureData>> {
     return fetch(url)
