@@ -27,13 +27,13 @@ export interface ICategoryData {
 
 type IImagesDto = Record<string, IImageDto>;
 
-interface IArtistQuestionData {
+export interface IArtistQuestionData {
   answers: string[];
   correctAnswerIndex: number;
   artistImgUrl: string;
 }
 
-interface IPicturesQuestionData {
+export interface IPicturesQuestionData {
   answers: string[];
   correctAnswerIndex: number;
   artistName: string;

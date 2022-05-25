@@ -19,10 +19,14 @@ export class Application extends Control {
     });
   }
   private gameCycle(gameName: string, categoryIndex: number) {
-    const gameField = new GameFieldPage(this.node, {
-      gameName: gameName,
-      categoryIndex: categoryIndex,
-    });
+    const gameField = new GameFieldPage(
+      this.node,
+      {
+        gameName: gameName,
+        categoryIndex: categoryIndex,
+      },
+      this.model.getPicturesQuestions(categoryIndex),
+    );
     gameField.onHome = () => {
       gameField.destroy();
       this.mainCycle();

@@ -1,6 +1,8 @@
 import Control from '../utils/Control';
 import { ArtistQuestionView } from './artistQuestionView';
-import { IArtistQuestionData } from './IArtistQuestionData ';
+// import { IArtistQuestionData } from './IArtistQuestionData ';
+import { IPicturesQuestionData } from './quizDataModel';
+import { IArtistQuestionData } from './quizDataModel';
 import { PictureQuestionsView } from './pictureQuestionsView';
 interface IQuizOptions {
   gameName: string;
@@ -19,7 +21,11 @@ export class GameFieldPage extends Control {
   results: IQuizResults;
 
   answerIndicator: Control<HTMLElement>;
-  constructor(parentNode: HTMLElement, gameOptions: IQuizOptions) {
+  constructor(
+    parentNode: HTMLElement,
+    gameOptions: IQuizOptions,
+    questionData: Array<IArtistQuestionData | IPicturesQuestionData>,
+  ) {
     super(parentNode);
     console.log(gameOptions);
     const header = new Control(
@@ -41,22 +47,17 @@ export class GameFieldPage extends Control {
     this.progressIndicator = new Control(this.node, 'div', '', '');
     this.answerIndicator = new Control(this.node, 'div', '', '');
 
-    const questions: Array<IArtistQuestionData> = [
-      { answers: [1, 2, 3, 4], correctAnswerIndex: 1 },
-      { answers: [1, 2, 3, 4], correctAnswerIndex: 2 },
-      { answers: [1, 2, 3, 4], correctAnswerIndex: 3 },
-    ];
+    // const questions: Array<IArtistQuestionData> = [
+    //   { answers: [1, 2, 3, 4], correctAnswerIndex: 1 },
+    //   { answers: [1, 2, 3, 4], correctAnswerIndex: 2 },
+    //   { answers: [1, 2, 3, 4], correctAnswerIndex: 3 },
+    // ];
     this.results = [];
-    this.questionCycle(gameOptions.gameName, questions, 0, () => {
+    this.questionCycle(gameOptions.gameName, questionData, 0, () => {
       this.onFinish(this.results);
     });
   }
-  questionCycle(
-    gameName: string,
-    questions: Array<IArtistQuestionData>,
-    index: number,
-    onFinish: () => void,
-  ) {
+  questionCycle(gameName: string, questions: Array<any>, index: number, onFinish: () => void) {
     if (index >= questions.length) {
       onFinish();
       return;
