@@ -27,7 +27,20 @@ export interface ICategoryData {
 
 type IImagesDto = Record<string, IImageDto>;
 
+interface IArtistQuestionData {
+  answers: string[];
+  correctAnswerIndex: number;
+  artistImgUrl: string;
+}
+
+interface IPicturesQuestionData {
+  answers: string[];
+  correctAnswerIndex: number;
+  artistName: string;
+}
+
 export class QuizDataModel {
+  private questionsPerCategory = 10;
   data: Array<IPictureData>;
 
   constructor() {}
@@ -38,7 +51,7 @@ export class QuizDataModel {
   }
 
   public getCategoriesData() {
-    const questionsPerCategory = 10;
+    const questionsPerCategory = this.questionsPerCategory;
     const categoriesCount = Math.floor(this.data.length / questionsPerCategory);
     const categories: Array<ICategoryData> = [];
     for (let i = 0; i < categoriesCount; i++) {
@@ -53,6 +66,40 @@ export class QuizDataModel {
 
     return categories;
   }
+
+  public getPicturesQuestions(categoryIndex: number) {
+    const questionsPerCategory = this.questionsPerCategory;
+    const result: Array<IPicturesQuestionData> = [];
+    for (
+      let i = categoryIndex * questionsPerCategory;
+      i < (categoryIndex + 1) * questionsPerCategory;
+      i++
+    ) {
+      const answers: Array<string> = [];
+      const answersCount = 4;
+      const correctAnswerIndex = Math.floor(Math.random() * answersCount);
+      const correctAnswer = `./public/img/pictures/${this.data[i].picture}.jpg`;
+      for (let j = 0; j < answersCount; j++) {
+        if (correctAnswerIndex == j) {
+          answers.push(correctAnswer);
+        } else {
+          const randomImage = this.data[Math.floor(Math.random() * this.data.length)].picture;
+          const variantUrl = `./public/img/pictures/${randomImage}.jpg`;
+          answers.push(variantUrl);
+        }
+      }
+      const question: IPicturesQuestionData = {
+        artistName: this.data[i].author.en,
+        answers: answers,
+        correctAnswerIndex: correctAnswerIndex,
+      };
+      result.push(question);
+    }
+
+    return result;
+  }
+
+  public getArtistQuestions() {}
 
   private loadImagesdata(url: string): Promise<Array<IPictureData>> {
     return fetch(url)
